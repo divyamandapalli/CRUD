@@ -9,7 +9,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // serve static files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); 
 
 mongoose.connect('mongodb://localhost:27017/CRUD', {
   useNewUrlParser: true,
@@ -17,10 +17,10 @@ mongoose.connect('mongodb://localhost:27017/CRUD', {
 }).then(() => console.log('MongoDB connected'))
   .catch(err => console.log('MongoDB connection error:', err));
 
-// Multer config to store uploaded images
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Ensure uploads folder exists
+    cb(null, 'uploads/'); 
   },
   filename: (req, file, cb) => {
     const uniqueName = Date.now() + '-' + Math.round(Math.random() * 1E9) + path.extname(file.originalname);
@@ -29,7 +29,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// Create user
+
 app.post('/CreateUsers', upload.single('profile'), (req, res) => {
   const { name, email, age } = req.body;
   if (!name || !email || !age) {
@@ -45,14 +45,14 @@ app.post('/CreateUsers', upload.single('profile'), (req, res) => {
     });
 });
 
-// Get all users
+
 app.get('/users', (req, res) => {
   UserModel.find()
     .then(users => res.json(users))
     .catch(err => res.status(500).json({ error: 'Failed to fetch users' }));
 });
 
-// Get single user by ID
+
 app.get('/getUsers/:id', (req, res) => {
   UserModel.findById(req.params.id)
     .then(user => {
@@ -62,7 +62,7 @@ app.get('/getUsers/:id', (req, res) => {
     .catch(err => res.status(500).json({ error: 'Error fetching user' }));
 });
 
-// Update user by ID
+
 app.put('/UpdateUsers/:id', upload.single('profile'), async (req, res) => {
   try {
     const { name, email, age } = req.body;
@@ -81,7 +81,7 @@ app.put('/UpdateUsers/:id', upload.single('profile'), async (req, res) => {
   }
 });
 
-// Delete user by ID
+
 app.delete('/deleteUsers/:id', (req, res) => {
   UserModel.findByIdAndDelete(req.params.id)
     .then(user => {

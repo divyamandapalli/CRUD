@@ -36,7 +36,7 @@ function CreateUsers() {
     formData.append("age", age);
     if (file) formData.append("profile", file);
 
-    axios.post('http://localhost:3010/createusers', formData)
+    axios.post('http://localhost:3010/CreateUsers', formData)
       .then(() => navigate('/'))
       .catch((error) => {
         alert("Failed to create user");
@@ -46,7 +46,7 @@ function CreateUsers() {
 
   return (
     <>
-      <center><h1>Create User</h1>      </center>
+      <center><h1>Create User</h1></center>
       <form onSubmit={submit} encType="multipart/form-data" style={{ maxWidth: 400, margin: 'auto', display: 'flex', flexDirection: 'column', gap: 12 }}>
         <input
           type="text"
@@ -90,4 +90,3 @@ function CreateUsers() {
 }
 
 export default CreateUsers
-
